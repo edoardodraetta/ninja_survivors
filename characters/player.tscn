@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bq8l1bc4p2jfv"]
+[gd_scene load_steps=34 format=3 uid="uid://bq8l1bc4p2jfv"]
 
 [ext_resource type="Script" path="res://characters/player.gd" id="1_5whsx"]
 [ext_resource type="Texture2D" uid="uid://d3bw4lqwj6bnq" path="res://assets/NinjaAdventure/Actor/Characters/DarkNinja/SpriteSheet.png" id="1_nxgum"]
@@ -237,10 +237,28 @@ states/Walk/position = Vector2(615.5, 98.125)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_oo3fr"), "Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_135u0"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_idoma")]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ur5uf"]
-radius = 95.1315
+radius = 212.021
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kuvob"]
+size = Vector2(17, 17)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p46rp"]
+bg_color = Color(0.333333, 0.333333, 0.333333, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n7mdl"]
+bg_color = Color(0, 0.627451, 0.129412, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+corner_detail = 20
 
 [node name="Player" type="CharacterBody2D"]
-collision_mask = 2
+collision_mask = 130
 motion_mode = 1
 script = ExtResource("1_5whsx")
 
@@ -276,6 +294,7 @@ collision_mask = 2
 script = ExtResource("3_fsh82")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AutoAim"]
+position = Vector2(1, 0)
 shape = SubResource("CircleShape2D_ur5uf")
 
 [node name="Timer" type="Timer" parent="."]
@@ -292,5 +311,25 @@ texture = ExtResource("4_s8qkm")
 
 [node name="ShootingPoint" type="Marker2D" parent="ShootingPivot/Sprite2D"]
 unique_name_in_owner = true
+
+[node name="HurtBox" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(-0.5, 0.5)
+shape = SubResource("RectangleShape2D_kuvob")
+debug_color = Color(0.92549, 0.188235, 0.498039, 0.419608)
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+offset_left = -22.0
+offset_top = -22.0
+offset_right = 23.0
+offset_bottom = -13.0
+theme_override_styles/background = SubResource("StyleBoxFlat_p46rp")
+theme_override_styles/fill = SubResource("StyleBoxFlat_n7mdl")
+value = 100.0
+show_percentage = false
 
 [connection signal="timeout" from="Timer" to="AutoAim" method="_on_timer_timeout"]

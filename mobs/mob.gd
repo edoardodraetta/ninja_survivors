@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
+var mob_health : int = 3
 @export var mob_speed : float = 50
-
 @onready var player = get_node("/root/Level/Player")
-	
+
 func _physics_process(_delta: float) -> void:
 	
 	var direction:Vector2 = global_position.direction_to(
@@ -14,4 +14,7 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	
 func take_damage():
-	pass
+	mob_health -= 1
+	$Beast.play_hurt()	
+	if mob_health == 0:
+		queue_free()
